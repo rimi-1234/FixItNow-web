@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 44" fill="none" aria-label="FixItNow">
+  <g transform="translate(0,2)">
+    <path d="M20 4 L36 16 L33 16 L33 34 L7 34 L7 16 L4 16 Z" fill="#6B9FFF" stroke="#4D82F5" stroke-width="1.2" stroke-linejoin="round"/>
+    <rect x="10" y="22" width="6" height="12" rx="1.2" fill="#4D82F5" opacity="0.35"/>
+    <path d="M24 16 C26.5 13.5 30 14.5 30 17.5 C30 19 28.5 20 27 20 L23 24 L21 22 L24 18.5 Z" fill="white" opacity="0.9"/>
+    <path d="M21 22 L18.5 24.5 C17.5 25.5 17.5 27 19 27 C19.8 27 20.5 26.4 21 26 L23.5 23.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="30" cy="8" r="3.5" fill="#4ADE80"/>
+    <path d="M28 8 L29.5 9.5 L32.5 6.5" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="46" y="29" font-family="'Plus Jakarta Sans', 'Inter', system-ui, sans-serif" font-size="20" font-weight="700" fill="#F9FAFB" letter-spacing="-0.3">
+    FixItNow
+  </text>
+</svg>

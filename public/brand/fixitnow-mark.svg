@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+  <!-- House roof -->
+  <path d="M24 8 L42 22 L38 22 L38 40 L10 40 L10 22 L6 22 Z" fill="#3B6FE8" stroke="#2952B3" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- House body highlight -->
+  <rect x="14" y="26" width="8" height="14" rx="1.5" fill="#2952B3" opacity="0.3"/>
+  <!-- Wrench -->
+  <path d="M30 20 C33 17 37 18 37 22 C37 24 35 25 33 25 L28 30 L25 27 L30 22 Z" fill="white" opacity="0.9"/>
+  <path d="M25 27 L22 30 C21 31 21 33 23 33 C24 33 25 32 26 31 L29 28" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  <!-- Check mark dot -->
+  <circle cx="36" cy="11" r="4" fill="#22C55E"/>
+  <path d="M33.5 11 L35 12.5 L38.5 9" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

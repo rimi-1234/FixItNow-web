@@ -1,0 +1,97 @@
+/* FixItNow Design Tokens — OKLCH color space for perceptual uniformity */
+
+:root {
+  /* ── Backgrounds ─────────────────────────────── */
+  --background: oklch(0.985 0.004 248);
+  --foreground: oklch(0.18 0.025 255);
+  --surface: oklch(1 0 0);
+  --surface-raised: oklch(0.978 0.006 248);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.025 255);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.025 255);
+
+  /* ── Muted ───────────────────────────────────── */
+  --muted: oklch(0.945 0.012 248);
+  --muted-foreground: oklch(0.52 0.022 255);
+
+  /* ── Borders & Input ─────────────────────────── */
+  --border: oklch(0.88 0.014 248);
+  --input: oklch(0.92 0.012 248);
+  --ring: oklch(0.57 0.19 252);
+
+  /* ── Brand — Cobalt Blue ─────────────────────── */
+  --brand: oklch(0.55 0.20 252);
+  --brand-foreground: oklch(0.99 0.003 248);
+  --brand-subtle: oklch(0.93 0.06 252);
+
+  /* ── Accent — Fresh Teal ─────────────────────── */
+  --accent: oklch(0.68 0.13 180);
+  --accent-foreground: oklch(0.18 0.025 175);
+
+  /* ── Semantic ────────────────────────────────── */
+  --success: oklch(0.62 0.16 148);
+  --success-foreground: oklch(0.98 0.005 148);
+  --warning: oklch(0.78 0.16 78);
+  --warning-foreground: oklch(0.22 0.04 78);
+  --danger: oklch(0.59 0.21 25);
+  --danger-foreground: oklch(0.99 0.005 25);
+
+  /* ── Radii ───────────────────────────────────── */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.25rem;
+
+  /* ── Shadows ─────────────────────────────────── */
+  --shadow-color: 0 0% 0%;
+  --shadow-strength: 0.08;
+
+  /* ── Z-index layers ──────────────────────────── */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+}
+
+.dark {
+  /* ── Backgrounds ─────────────────────────────── */
+  --background: oklch(0.14 0.018 255);
+  --foreground: oklch(0.93 0.008 248);
+  --surface: oklch(0.18 0.020 255);
+  --surface-raised: oklch(0.22 0.022 255);
+  --card: oklch(0.18 0.020 255);
+  --card-foreground: oklch(0.93 0.008 248);
+  --popover: oklch(0.20 0.022 255);
+  --popover-foreground: oklch(0.93 0.008 248);
+
+  /* ── Muted ───────────────────────────────────── */
+  --muted: oklch(0.245 0.020 255);
+  --muted-foreground: oklch(0.65 0.020 248);
+
+  /* ── Borders & Input ─────────────────────────── */
+  --border: oklch(0.30 0.022 255);
+  --input: oklch(0.26 0.022 255);
+  --ring: oklch(0.68 0.16 248);
+
+  /* ── Brand — lighter for dark bg ────────────── */
+  --brand: oklch(0.68 0.16 248);
+  --brand-foreground: oklch(0.14 0.022 255);
+  --brand-subtle: oklch(0.24 0.06 252);
+
+  /* ── Accent ──────────────────────────────────── */
+  --accent: oklch(0.72 0.13 180);
+  --accent-foreground: oklch(0.14 0.02 175);
+
+  /* ── Semantic ────────────────────────────────── */
+  --success: oklch(0.68 0.15 148);
+  --success-foreground: oklch(0.14 0.018 148);
+  --warning: oklch(0.82 0.14 78);
+  --warning-foreground: oklch(0.14 0.02 78);
+  --danger: oklch(0.65 0.20 25);
+  --danger-foreground: oklch(0.14 0.018 25);
+}
