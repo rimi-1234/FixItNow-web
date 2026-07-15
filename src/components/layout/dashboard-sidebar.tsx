@@ -125,7 +125,7 @@ export function DashboardSidebar({ user }: SidebarProps) {
       {/* Desktop sidebar */}
       <aside
         className={cn(
-          "hidden md:flex flex-col fixed top-0 left-0 bottom-0 z-[100] bg-surface border-r border-border transition-all duration-200",
+          "fixed bottom-0 left-0 top-0 z-[100] hidden flex-col border-r border-border/70 bg-surface/80 shadow-xl shadow-black/5 backdrop-blur-xl transition-all duration-300 ease-out md:flex",
           sidebarCollapsed ? "w-16" : "w-64"
         )}
       >
@@ -135,7 +135,7 @@ export function DashboardSidebar({ user }: SidebarProps) {
       {/* Mobile sidebar */}
       <aside
         className={cn(
-          "flex md:hidden flex-col fixed top-0 left-0 bottom-0 z-[200] w-72 bg-surface border-r border-border transition-transform duration-200",
+          "fixed bottom-0 left-0 top-0 z-[200] flex w-72 flex-col border-r border-border/70 bg-surface/95 backdrop-blur-xl transition-transform duration-300 ease-out md:hidden",
           mobileNavOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >

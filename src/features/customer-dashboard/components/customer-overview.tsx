@@ -28,16 +28,16 @@ function StatCard({ icon: Icon, label, value, href }: {
   href: string;
 }) {
   return (
-    <Link href={href}>
-      <Card className="hover:border-brand/40 hover:shadow-md transition-all duration-200 group">
+    <Link href={href} className="block">
+      <Card className="group rounded-2xl border-border/70 bg-card/80 shadow-sm backdrop-blur-md transition duration-300 ease-out hover:scale-[1.02] hover:border-brand/40 hover:shadow-lg hover:shadow-brand/10">
         <CardContent className="p-5">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs text-muted-foreground mb-1">{label}</p>
+              <p className="mb-1 text-xs text-muted-foreground">{label}</p>
               <p className="text-2xl font-bold text-foreground">{value}</p>
             </div>
-            <div className="rounded-[var(--radius-lg)] bg-brand-subtle p-3 group-hover:bg-brand transition-colors">
-              <Icon className="h-5 w-5 text-brand group-hover:text-brand-foreground transition-colors" aria-hidden />
+            <div className="rounded-2xl bg-brand-subtle p-3 transition-colors group-hover:bg-brand">
+              <Icon className="h-5 w-5 text-brand transition-colors group-hover:text-brand-foreground" aria-hidden />
             </div>
           </div>
         </CardContent>

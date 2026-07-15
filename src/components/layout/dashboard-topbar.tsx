@@ -24,7 +24,7 @@ export function DashboardTopbar({ user }: TopbarProps) {
     : ROUTES.dashboard.root;
 
   return (
-    <header className="sticky top-0 z-[100] flex h-14 items-center gap-4 border-b border-border bg-surface/95 backdrop-blur-sm px-4 sm:px-6">
+    <header className="sticky top-0 z-[100] flex h-14 items-center gap-4 border-b border-border/70 bg-surface/70 px-4 shadow-sm backdrop-blur-xl sm:px-6">
       {/* Mobile nav toggle */}
       <Button
         variant="ghost"

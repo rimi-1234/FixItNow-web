@@ -30,33 +30,31 @@ export function MarketingHeader() {
     <>
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[600] bg-brand text-brand-foreground px-4 py-2 rounded-[var(--radius-md)] text-sm font-medium"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 z-[600] rounded-[var(--radius-md)] bg-brand px-4 py-2 text-sm font-medium text-brand-foreground"
       >
         Skip to content
       </a>
 
       <header
         className={cn(
-          "sticky top-0 z-[200] w-full transition-all duration-200",
+          "sticky top-0 z-[200] w-full transition-all duration-300 ease-out",
           scrolled
-            ? "bg-surface/95 backdrop-blur-md border-b border-border shadow-sm"
-            : "bg-transparent"
+            ? "border-b border-white/10 bg-slate-950/80 shadow-lg shadow-black/20 backdrop-blur-xl"
+            : "bg-slate-950/40 backdrop-blur-md"
         )}
       >
         <nav
-          className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 h-16"
+          className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
           aria-label="Main navigation"
         >
-          {/* Logo */}
-          <Logo size="md" />
+          <Logo size="md" className="[&_img]:brightness-0 [&_img]:invert" />
 
-          {/* Desktop nav */}
-          <ul className="hidden md:flex items-center gap-1" role="list">
+          <ul className="hidden items-center gap-1 md:flex" role="list">
             {NAV_LINKS.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
-                  className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground rounded-[var(--radius-sm)] transition-colors hover:bg-muted"
+                  className="rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition duration-300 ease-out hover:bg-white/10 hover:text-white"
                 >
                   {label}
                 </Link>
@@ -64,23 +62,31 @@ export function MarketingHeader() {
             ))}
           </ul>
 
-          {/* Desktop actions */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden items-center gap-2 md:flex">
             <ThemeToggle />
-            <Button variant="ghost" size="sm" asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="text-slate-200 hover:bg-white/10 hover:text-white"
+            >
               <Link href={ROUTES.login}>Log in</Link>
             </Button>
-            <Button size="sm" asChild>
+            <Button
+              size="sm"
+              asChild
+              className="rounded-xl bg-emerald-400 text-slate-950 hover:bg-emerald-300"
+            >
               <Link href={ROUTES.register}>Book a Service</Link>
             </Button>
           </div>
 
-          {/* Mobile: theme + hamburger */}
-          <div className="flex md:hidden items-center gap-1">
+          <div className="flex items-center gap-1 md:hidden">
             <ThemeToggle />
             <Button
               variant="ghost"
               size="icon"
+              className="text-white hover:bg-white/10"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav"
@@ -91,29 +97,28 @@ export function MarketingHeader() {
           </div>
         </nav>
 
-        {/* Mobile nav drawer */}
         {mobileOpen && (
           <div
             id="mobile-nav"
-            className="md:hidden border-t border-border bg-surface/98 backdrop-blur-md px-4 py-4 flex flex-col gap-1"
+            className="flex flex-col gap-1 border-t border-white/10 bg-slate-950/95 px-4 py-4 backdrop-blur-xl md:hidden"
           >
             {NAV_LINKS.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
-                className="block px-3 py-2.5 text-sm font-medium text-foreground hover:bg-muted rounded-[var(--radius-md)] transition-colors"
+                className="block rounded-xl px-3 py-2.5 text-sm font-medium text-slate-100 transition hover:bg-white/10"
                 onClick={() => setMobileOpen(false)}
               >
                 {label}
               </Link>
             ))}
-            <div className="mt-3 pt-3 border-t border-border flex flex-col gap-2">
-              <Button variant="outline" asChild>
+            <div className="mt-3 flex flex-col gap-2 border-t border-white/10 pt-3">
+              <Button variant="outline" asChild className="border-white/20 bg-transparent text-white">
                 <Link href={ROUTES.login} onClick={() => setMobileOpen(false)}>
                   Log in
                 </Link>
               </Button>
-              <Button asChild>
+              <Button asChild className="bg-emerald-400 text-slate-950 hover:bg-emerald-300">
                 <Link href={ROUTES.register} onClick={() => setMobileOpen(false)}>
                   Book a Service
                 </Link>
