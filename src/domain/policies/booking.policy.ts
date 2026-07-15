@@ -9,7 +9,10 @@ export function canCustomerCancel(booking: Booking): boolean {
 }
 
 export function canCustomerPay(booking: Booking): boolean {
-  return booking.status === "ACCEPTED" && !booking.payment;
+  if (booking.status !== "ACCEPTED") return false;
+  if (!booking.payment) return true;
+  // Allow retry while a checkout session is still pending.
+  return booking.payment.status === "PENDING";
 }
 
 export function canCustomerReview(booking: Booking): boolean {

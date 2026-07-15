@@ -8,7 +8,6 @@ const ALLOWED_PREFIXES = [
   "/auth/register",
   "/services",
   "/technicians",
-  "/technician",
   "/categories",
   "/bookings",
   "/payments",

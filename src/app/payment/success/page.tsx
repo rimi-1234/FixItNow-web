@@ -2,38 +2,76 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle2, Loader2, ArrowRight } from "lucide-react";
+import { CheckCircle2, Loader2, ArrowRight, AlertTriangle } from "lucide-react";
 import Link from "next/link";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/config/routes";
+import { apiPaths } from "@/config/api-paths";
+import { bookingKeys, paymentKeys } from "@/lib/query/query-keys";
 
 function PaymentSuccessContent() {
   const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
   const sessionId = searchParams.get("session_id");
   const bookingId = searchParams.get("bookingId");
   const [verifying, setVerifying] = useState(!!sessionId);
   const [synced, setSynced] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!sessionId) return;
+    if (!sessionId) {
+      setVerifying(false);
+      return;
+    }
+
+    let cancelled = false;
 
     async function verifySession() {
       try {
-        const res = await fetch(`/api/bff/payments/confirm?session_id=${sessionId}`, {
+        const res = await fetch(`/api/bff${apiPaths.payments.syncSession}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ sessionId }),
         });
-        if (res.ok) setSynced(true);
+        const json = (await res.json()) as {
+          success?: boolean;
+          message?: string;
+          data?: { synced?: boolean };
+        };
+
+        if (!res.ok || !json.success) {
+          if (!cancelled) {
+            setError(json.message ?? "Could not verify payment with Stripe");
+          }
+          return;
+        }
+
+        if (!cancelled) {
+          setSynced(Boolean(json.data?.synced));
+          if (!json.data?.synced) {
+            setError(json.message ?? "Payment is not marked paid yet");
+          }
+        }
+
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: bookingKeys.all }),
+          queryClient.invalidateQueries({ queryKey: paymentKeys.all }),
+        ]);
       } catch {
-        // ignore — webhook will handle
+        if (!cancelled) {
+          setError("Could not verify payment. If money was taken, refresh bookings in a moment.");
+        }
       } finally {
-        setVerifying(false);
+        if (!cancelled) setVerifying(false);
       }
     }
 
     verifySession();
-  }, [sessionId]);
+    return () => {
+      cancelled = true;
+    };
+  }, [sessionId, queryClient]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -46,16 +84,23 @@ function PaymentSuccessContent() {
         ) : (
           <>
             <div className="flex justify-center">
-              <div className="rounded-full bg-success/10 p-5">
-                <CheckCircle2 className="h-14 w-14 text-success" aria-hidden />
+              <div className={`rounded-full p-5 ${synced ? "bg-success/10" : "bg-warning/10"}`}>
+                {synced ? (
+                  <CheckCircle2 className="h-14 w-14 text-success" aria-hidden />
+                ) : (
+                  <AlertTriangle className="h-14 w-14 text-warning" aria-hidden />
+                )}
               </div>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Payment Successful!</h1>
+              <h1 className="text-2xl font-bold text-foreground">
+                {synced ? "Payment Successful!" : "Payment received"}
+              </h1>
               <p className="mt-2 text-muted-foreground">
                 {synced
-                  ? "Your payment has been confirmed and your booking is now active."
-                  : "Your payment was received. Confirmation will arrive shortly."}
+                  ? "Your payment has been confirmed and your booking is now marked as Paid."
+                  : error ??
+                    "Your payment was received. Confirmation may take a moment — check bookings shortly."}
               </p>
               {bookingId && (
                 <p className="mt-1 text-xs text-muted-foreground font-mono">
@@ -65,12 +110,18 @@ function PaymentSuccessContent() {
             </div>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Button asChild>
-                <Link href={ROUTES.dashboard.customer.bookings}>
-                  View Bookings <ArrowRight className="h-4 w-4" />
+                <Link
+                  href={
+                    bookingId
+                      ? ROUTES.dashboard.customer.booking(bookingId)
+                      : ROUTES.dashboard.customer.bookings
+                  }
+                >
+                  View Booking <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button variant="outline" asChild>
-                <Link href={ROUTES.home}>Go Home</Link>
+                <Link href={ROUTES.dashboard.customer.payments}>Payment history</Link>
               </Button>
             </div>
           </>
@@ -82,11 +133,13 @@ function PaymentSuccessContent() {
 
 export default function PaymentSuccessPage() {
   return (
-    <Suspense fallback={
-      <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-brand" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-brand" />
+        </div>
+      }
+    >
       <PaymentSuccessContent />
     </Suspense>
   );

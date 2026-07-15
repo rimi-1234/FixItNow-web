@@ -17,10 +17,10 @@ export const apiPaths = {
   technicians: {
     list: "/technicians",
     detail: (id: string) => `/technicians/${encode(id)}`,
-    profile: "/technician/profile",
-    availability: "/technician/availability",
-    bookings: "/technician/bookings",
-    updateBookingStatus: (id: string) => `/technician/bookings/${encode(id)}`,
+    profile: "/technicians/profile",
+    availability: "/technicians/availability",
+    bookings: "/technicians/bookings",
+    updateBookingStatus: (id: string) => `/technicians/bookings/${encode(id)}`,
   },
   categories: {
     list: "/categories",
@@ -33,6 +33,7 @@ export const apiPaths = {
   },
   payments: {
     create: "/payments/create",
+    syncSession: "/payments/sync-session",
     list: "/payments",
     detail: (id: string) => `/payments/${encode(id)}`,
   },

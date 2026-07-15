@@ -9,10 +9,24 @@ export interface CreatePaymentInput {
 }
 
 export interface CreatePaymentResult {
+  provider?: PaymentProvider;
+  gatewayUrl?: string;
+  sessionId?: string;
   paymentUrl?: string;
   sessionUrl?: string;
   url?: string;
   payment?: Payment;
+}
+
+export interface SyncPaymentSessionResult {
+  synced: boolean;
+  paymentStatus?: string;
+  bookingId?: string | null;
+  payment?: Payment | null;
+}
+
+export function getPaymentRedirectUrl(result: CreatePaymentResult): string | null {
+  return result.gatewayUrl ?? result.paymentUrl ?? result.sessionUrl ?? result.url ?? null;
 }
 
 export const paymentsService = {
@@ -20,6 +34,12 @@ export const paymentsService = {
     return browserApi.post<undefined>(apiPaths.payments.create, {
       body: input,
     }) as Promise<CreatePaymentResult>;
+  },
+
+  async syncSession(sessionId: string): Promise<SyncPaymentSessionResult> {
+    return browserApi.post<undefined>(apiPaths.payments.syncSession, {
+      body: { sessionId },
+    }) as Promise<SyncPaymentSessionResult>;
   },
 
   async list(signal?: AbortSignal): Promise<Payment[]> {

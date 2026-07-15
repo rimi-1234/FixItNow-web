@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { Calendar } from "lucide-react";
 import { useCustomerBookings, useCancelBookingMutation } from "@/features/bookings/queries";
-import { useCreatePaymentMutation } from "@/features/payments/queries";
-import { useCreateReviewMutation } from "@/features/reviews/queries";
+import { useCreatePaymentMutation, useSyncPaymentSessionMutation } from "@/features/payments/queries";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/feedback/empty-state";
 import { ErrorState } from "@/components/feedback/error-state";
@@ -13,8 +13,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getBookingStatusPresentation, canCustomerCancel, canCustomerPay, canCustomerReview } from "@/domain/policies/booking.policy";
 import { formatScheduledTime, formatCurrency } from "@/domain/formatters";
 import { ReviewDialog } from "@/features/reviews/components/review-dialog";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Booking } from "@/domain/models";
+import { ROUTES } from "@/config/routes";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -43,18 +44,19 @@ function BookingCard({ booking }: { booking: Booking }) {
   const [reviewOpen, setReviewOpen] = useState(false);
 
   const handlePay = async () => {
-    const result = await createPayment({ bookingId: booking.id, provider: "STRIPE" });
-    const url = result.paymentUrl ?? result.sessionUrl ?? result.url;
-    if (url) window.location.href = url;
+    await createPayment({ bookingId: booking.id, provider: "STRIPE" });
   };
 
   return (
-    <Card>
+    <Card className="transition-colors hover:border-brand/30">
       <CardContent className="p-5">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <h3 className="font-semibold text-foreground text-sm">
+          <Link
+            href={ROUTES.dashboard.customer.booking(booking.id)}
+            className="min-w-0 flex-1 rounded-[var(--radius-sm)] outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <div className="mb-1 flex flex-wrap items-center gap-2">
+              <h3 className="text-sm font-semibold text-foreground">
                 {booking.service?.name ?? "Service"}
               </h3>
               <Badge variant={badgeVariant}>{label}</Badge>
@@ -63,11 +65,14 @@ function BookingCard({ booking }: { booking: Booking }) {
               by {booking.technician?.email ?? "Unknown"} · {formatScheduledTime(booking.scheduledTime)}
             </p>
             {booking.service?.price !== undefined && (
-              <p className="text-sm font-bold text-brand mt-1">{formatCurrency(booking.service.price)}</p>
+              <p className="mt-1 text-sm font-bold text-brand">{formatCurrency(booking.service.price)}</p>
             )}
-          </div>
+          </Link>
 
           <div className="flex flex-wrap gap-2 shrink-0">
+            <Button size="sm" variant="ghost" asChild>
+              <Link href={ROUTES.dashboard.customer.booking(booking.id)}>View</Link>
+            </Button>
             {canCustomerPay(booking) && (
               <Button size="sm" loading={paying} onClick={handlePay}>
                 Pay Now
@@ -125,6 +130,24 @@ function BookingCard({ booking }: { booking: Booking }) {
 
 export function CustomerBookingsList() {
   const { data: bookings, isLoading, isError, refetch } = useCustomerBookings();
+  const { mutate: syncSession } = useSyncPaymentSessionMutation();
+  const attemptedSessions = useRef(new Set<string>());
+
+  useEffect(() => {
+    if (!bookings?.length) return;
+    for (const booking of bookings) {
+      const payment = booking.payment;
+      if (
+        payment?.status === "PENDING" &&
+        payment.provider === "STRIPE" &&
+        payment.transactionId &&
+        !attemptedSessions.current.has(payment.transactionId)
+      ) {
+        attemptedSessions.current.add(payment.transactionId);
+        syncSession(payment.transactionId);
+      }
+    }
+  }, [bookings, syncSession]);
 
   return (
     <div className="space-y-6">

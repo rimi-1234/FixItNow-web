@@ -4,25 +4,36 @@ import { ApiError } from "./api-error";
 type QueryValue = string | number | boolean | null | undefined;
 type QueryParams = Record<string, QueryValue | QueryValue[]>;
 
-function buildUrl(base: string, path: string, query?: QueryParams): string {
-  const normalized = base.replace(/\/$/, "") + "/" + path.replace(/^\//, "");
-  const url = new URL(normalized);
-
-  if (query) {
-    for (const [key, value] of Object.entries(query)) {
-      if (value === null || value === undefined) continue;
-      if (Array.isArray(value)) {
-        for (const v of value) {
-          if (v !== null && v !== undefined) {
-            url.searchParams.append(key, String(v));
-          }
+function appendQuery(target: URLSearchParams, query: QueryParams) {
+  for (const [key, value] of Object.entries(query)) {
+    if (value === null || value === undefined) continue;
+    if (Array.isArray(value)) {
+      for (const v of value) {
+        if (v !== null && v !== undefined) {
+          target.append(key, String(v));
         }
-      } else {
-        url.searchParams.set(key, String(value));
       }
+    } else {
+      target.set(key, String(value));
     }
   }
+}
 
+function buildUrl(base: string, path: string, query?: QueryParams): string {
+  const normalized = `${base.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
+
+  // Relative BFF paths (e.g. /api/bff/...) work with fetch(), but `new URL()`
+  // requires an absolute URL unless a base is provided.
+  if (!/^https?:\/\//i.test(normalized)) {
+    if (!query) return normalized;
+    const params = new URLSearchParams();
+    appendQuery(params, query);
+    const qs = params.toString();
+    return qs ? `${normalized}?${qs}` : normalized;
+  }
+
+  const url = new URL(normalized);
+  if (query) appendQuery(url.searchParams, query);
   return url.toString();
 }
 
