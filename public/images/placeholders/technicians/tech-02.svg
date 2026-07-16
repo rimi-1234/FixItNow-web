@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="32" y1="28" x2="612" y2="616" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4C1D95"/>
+      <stop offset="1" stop-color="#DB2777"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="136" y1="449" x2="502" y2="640" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14B8A6"/>
+      <stop offset="1" stop-color="#0F766E"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="640" rx="40" fill="url(#bg)"/>
+  <circle cx="319" cy="272" r="229" fill="#FBCFE8" fill-opacity=".13"/>
+  <path d="M0 119C139 57 237 153 356 91C480 27 533 57 640 96" stroke="#fff" stroke-opacity=".1" stroke-width="3"/>
+  <path d="M109 640C121 504 200 425 320 425C440 425 519 504 531 640H109Z" fill="url(#shirt)"/>
+  <path d="M264 405V458C264 492 289 514 320 514C351 514 376 492 376 458V405H264Z" fill="#7C4932"/>
+  <ellipse cx="320" cy="300" rx="112" ry="139" fill="#8A5137"/>
+  <path d="M207 282C185 219 214 150 279 127C348 102 430 141 448 222C455 251 446 278 430 302C419 231 386 208 320 208C266 208 232 233 207 282Z" fill="#1F1726"/>
+  <path d="M244 183C195 206 180 260 195 330C177 294 166 235 190 190C219 136 285 108 349 125C286 124 267 149 244 183Z" fill="#2D1A31"/>
+  <path d="M210 276C195 275 185 290 189 312C192 334 205 347 221 340L210 276ZM430 276C445 275 455 290 451 312C448 334 435 347 419 340L430 276Z" fill="#8A5137"/>
+  <path d="M273 306C286 297 298 297 311 306M349 306C362 297 374 297 387 306" stroke="#24110D" stroke-width="7" stroke-linecap="round"/>
+  <path d="M294 365C312 380 332 380 350 365" stroke="#5B2530" stroke-width="8" stroke-linecap="round"/>
+  <path d="M248 438L320 514L392 438L420 469L374 640H266L220 469L248 438Z" fill="#ECFEFF" fill-opacity=".94"/>
+  <path d="M255 447L320 514L385 447L406 470L320 550L234 470L255 447Z" fill="#99F6E4"/>
+  <circle cx="434" cy="538" r="38" fill="#F59E0B" stroke="#FEF3C7" stroke-width="6"/>
+  <path d="M434 516L441 530L457 532L445 543L448 559L434 551L420 559L423 543L411 532L427 530L434 516Z" fill="#fff"/>
+</svg>

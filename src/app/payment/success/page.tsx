@@ -21,7 +21,6 @@ function PaymentSuccessContent() {
 
   useEffect(() => {
     if (!sessionId) {
-      setVerifying(false);
       return;
     }
 

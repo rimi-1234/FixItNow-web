@@ -53,7 +53,6 @@ export function useLoginMutation() {
 }
 
 export function useRegisterMutation() {
-  const queryClient = useQueryClient();
   const router = useRouter();
 
   return useMutation({

@@ -1,11 +1,10 @@
 "use client";
 
-import { MapPin, Briefcase, Clock, Star, ChevronLeft } from "lucide-react";
+import { MapPin, Briefcase, Clock, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { useTechnicianDetail } from "@/features/technicians/queries";
 import { useServices } from "@/features/services/queries";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ErrorState } from "@/components/feedback/error-state";
 import { ServiceCard } from "@/features/services/components/service-card";

@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { MapPin, Tag } from "lucide-react";
+import { motion } from "motion/react";
+import { ArrowRight, Tag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { EntityImage } from "@/components/ui/entity-image";
+import { resolveServiceImage } from "@/config/placeholder-media";
 import { formatCurrency } from "@/domain/formatters";
 import { ROUTES } from "@/config/routes";
 import type { Service } from "@/domain/models";
@@ -15,32 +18,58 @@ interface ServiceCardProps {
 
 export function ServiceCard({ service, showBookButton = true }: ServiceCardProps) {
   return (
-    <article className="flex flex-col rounded-[var(--radius-xl)] border border-border bg-card p-5 hover:border-brand/40 hover:shadow-md transition-all duration-200">
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <h3 className="font-semibold text-foreground text-sm line-clamp-1">{service.name}</h3>
-        <span className="text-base font-bold text-brand shrink-0">{formatCurrency(service.price)}</span>
-      </div>
-
-      {service.category && (
-        <div className="flex items-center gap-1 mb-2">
-          <Tag className="h-3 w-3 text-muted-foreground" aria-hidden />
-          <Badge variant="secondary" className="text-xs">{service.category.name}</Badge>
+    <motion.article
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.18 }}
+      whileHover={{ y: -6 }}
+      transition={{ duration: 0.42, ease: "easeOut" }}
+      className="group flex h-full flex-col overflow-hidden rounded-[var(--radius-xl)] border border-border/80 bg-card shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-brand/40 hover:shadow-xl hover:shadow-brand/10"
+    >
+      <EntityImage
+        src={resolveServiceImage(service)}
+        alt={`${service.name} service illustration`}
+        aspect="service"
+      >
+        <div className="flex h-full flex-col justify-between p-4">
+          <div>
+            {service.category && (
+              <Badge className="border border-white/50 bg-white/90 text-slate-900 shadow-sm backdrop-blur-md">
+                <Tag className="mr-1 h-3 w-3" aria-hidden="true" />
+                {service.category.name}
+              </Badge>
+            )}
+          </div>
+          <span className="ml-auto rounded-xl border border-white/15 bg-slate-950/70 px-3 py-1.5 text-sm font-bold text-white shadow-lg backdrop-blur-md">
+            {formatCurrency(service.price)}
+          </span>
         </div>
-      )}
+      </EntityImage>
 
-      <p className="text-xs text-muted-foreground line-clamp-2 flex-1 mb-3">{service.description}</p>
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="line-clamp-1 text-base font-semibold text-foreground transition-colors duration-300 group-hover:text-brand">
+          {service.name}
+        </h3>
 
-      {service.technician && (
-        <p className="text-xs text-muted-foreground mb-3">by {service.technician.email}</p>
-      )}
+        <p className="mt-2 line-clamp-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+          {service.description}
+        </p>
 
-      {showBookButton && (
-        <Button size="sm" className="mt-auto" asChild>
-          <Link href={`${ROUTES.technicians}/${service.technicianId}`}>
-            Book this service
-          </Link>
-        </Button>
-      )}
-    </article>
+        {service.technician && (
+          <p className="mt-4 truncate border-t border-border/70 pt-3 text-xs text-muted-foreground">
+            Provided by <span className="font-medium text-foreground">{service.technician.email}</span>
+          </p>
+        )}
+
+        {showBookButton && (
+          <Button size="sm" className="mt-4 w-full" asChild>
+            <Link href={`${ROUTES.technicians}/${service.technicianId}`}>
+              Book this service
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+            </Link>
+          </Button>
+        )}
+      </div>
+    </motion.article>
   );
 }

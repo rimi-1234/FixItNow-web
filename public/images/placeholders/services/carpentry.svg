@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="68" y1="18" x2="728" y2="546" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#713F12"/>
+      <stop offset=".55" stop-color="#B45309"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="206" y1="345" x2="608" y2="437" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FDE68A"/>
+      <stop offset="1" stop-color="#D97706"/>
+    </linearGradient>
+    <filter id="shadow" x="151" y="89" width="503" height="425" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="22" stdDeviation="20" flood-color="#451A03" flood-opacity=".3"/>
+    </filter>
+  </defs>
+  <rect width="800" height="560" rx="32" fill="url(#bg)"/>
+  <circle cx="684" cy="104" r="154" fill="#FDE68A" fill-opacity=".12"/>
+  <circle cx="106" cy="483" r="164" fill="#FED7AA" fill-opacity=".11"/>
+  <g stroke="#fff" stroke-opacity=".11" stroke-width="2">
+    <path d="M0 105H800M0 453H800"/>
+    <path d="M102 0V560M698 0V560"/>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="176" y="114" width="448" height="336" rx="44" fill="#fff" fill-opacity=".13" stroke="#fff" stroke-opacity=".23" stroke-width="3"/>
+    <rect x="200" y="343" width="408" height="102" rx="24" fill="url(#wood)" stroke="#FEF3C7" stroke-opacity=".65" stroke-width="4"/>
+    <path d="M224 382C286 354 332 428 395 389C455 351 509 419 581 379" stroke="#92400E" stroke-opacity=".45" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="308" cy="393" r="18" stroke="#92400E" stroke-opacity=".45" stroke-width="7"/>
+    <path d="M319 161L393 235L348 280L274 206L319 161Z" fill="#E2E8F0" stroke="#fff" stroke-width="5"/>
+    <path d="M384 224L527 367" stroke="#78350F" stroke-width="35" stroke-linecap="round"/>
+    <path d="M286 188L352 254" stroke="#94A3B8" stroke-width="11" stroke-linecap="round"/>
+    <path d="M500 188L528 256L594 282L528 308L500 376L472 308L406 282L472 256L500 188Z" fill="#FDE68A" fill-opacity=".92"/>
+  </g>
+  <g fill="#fff" fill-opacity=".55">
+    <circle cx="129" cy="128" r="8"/>
+    <circle cx="671" cy="413" r="11"/>
+  </g>
+</svg>

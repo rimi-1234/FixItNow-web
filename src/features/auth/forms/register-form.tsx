@@ -11,38 +11,42 @@ import { Label } from "@/components/ui/label";
 import { useRegisterMutation } from "@/features/auth/queries";
 import { cn } from "@/lib/utils";
 
-const baseSchema = z.object({
+const registerSchema = z.object({
   email: z.string().email("Enter a valid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   confirmPassword: z.string(),
   role: z.enum(["CUSTOMER", "TECHNICIAN"]),
-});
-
-const technicianSchema = baseSchema.extend({
-  skills: z.string().min(1, "Add at least one skill"),
-  experience: z.coerce.number().int().min(0, "Must be 0 or more"),
-  hourlyRate: z.coerce.number().min(0, "Must be 0 or more"),
+  skills: z.string().optional(),
+  experience: z.string().optional(),
+  hourlyRate: z.string().optional(),
   bio: z.string().optional(),
-  location: z.string().min(1, "Location is required for technicians"),
-});
-
-const registerSchema = baseSchema.superRefine((data, ctx) => {
+  location: z.string().optional(),
+}).superRefine((data, ctx) => {
   if (data.password !== data.confirmPassword) {
     ctx.addIssue({ code: "custom", message: "Passwords don't match", path: ["confirmPassword"] });
   }
+
+  if (data.role === "TECHNICIAN") {
+    if (!data.skills?.trim()) {
+      ctx.addIssue({ code: "custom", message: "Add at least one skill", path: ["skills"] });
+    }
+    if (!data.location?.trim()) {
+      ctx.addIssue({ code: "custom", message: "Service area is required", path: ["location"] });
+    }
+
+    const experience = Number(data.experience ?? 0);
+    if (!Number.isInteger(experience) || experience < 0) {
+      ctx.addIssue({ code: "custom", message: "Enter a valid number of years", path: ["experience"] });
+    }
+
+    const hourlyRate = Number(data.hourlyRate ?? 0);
+    if (!Number.isFinite(hourlyRate) || hourlyRate < 0) {
+      ctx.addIssue({ code: "custom", message: "Enter a valid hourly rate", path: ["hourlyRate"] });
+    }
+  }
 });
 
-type RegisterFormValues = {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  role: "CUSTOMER" | "TECHNICIAN";
-  skills?: string;
-  experience?: string;
-  hourlyRate?: string;
-  bio?: string;
-  location?: string;
-};
+type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -55,17 +59,16 @@ export function RegisterForm() {
     setValue,
     formState: { errors },
   } = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
     defaultValues: { role: "CUSTOMER" },
   });
 
   const onRoleSelect = (role: "CUSTOMER" | "TECHNICIAN") => {
     setSelectedRole(role);
-    setValue("role", role);
+    setValue("role", role, { shouldValidate: true });
   };
 
   const onSubmit = async (values: RegisterFormValues) => {
-    if (values.password !== values.confirmPassword) return;
-
     const payload: Parameters<typeof mutateAsync>[0] = {
       email: values.email,
       password: values.password,
@@ -109,7 +112,7 @@ export function RegisterForm() {
         </div>
         {selectedRole === "TECHNICIAN" && (
           <p className="text-xs text-muted-foreground mt-1">
-            You'll need to provide your skills, experience, and hourly rate.
+            You&apos;ll need to provide your skills, experience, and hourly rate.
           </p>
         )}
       </div>
@@ -155,23 +158,30 @@ export function RegisterForm() {
           <div className="space-y-1.5">
             <Label htmlFor="skills">Skills <span className="text-danger">*</span></Label>
             <Input id="skills" placeholder="e.g. Plumbing, Electrical, Painting" {...register("skills")} />
-            <p className="text-xs text-muted-foreground">Separate multiple skills with commas</p>
+            {errors.skills ? (
+              <p className="text-xs text-danger">{errors.skills.message}</p>
+            ) : (
+              <p className="text-xs text-muted-foreground">Separate multiple skills with commas</p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label htmlFor="experience">Experience (years)</Label>
               <Input id="experience" type="number" min="0" placeholder="0" {...register("experience")} />
+              {errors.experience && <p className="text-xs text-danger">{errors.experience.message}</p>}
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="hourlyRate">Hourly rate (BDT)</Label>
               <Input id="hourlyRate" type="number" min="0" placeholder="0" {...register("hourlyRate")} />
+              {errors.hourlyRate && <p className="text-xs text-danger">{errors.hourlyRate.message}</p>}
             </div>
           </div>
 
           <div className="space-y-1.5">
             <Label htmlFor="location">Service area <span className="text-danger">*</span></Label>
             <Input id="location" placeholder="e.g. Dhaka, Chittagong" {...register("location")} />
+            {errors.location && <p className="text-xs text-danger">{errors.location.message}</p>}
           </div>
 
           <div className="space-y-1.5">

@@ -3,9 +3,18 @@ import { ServicesPageContent } from "@/features/services/components/services-pag
 
 export const metadata: Metadata = {
   title: "Browse Services",
-  description: "Find professional home services near you — plumbing, electrical, cleaning, painting, and more.",
+  description: "Find professional plumbing, electrical, cleaning, painting, repair, and home care services.",
 };
 
-export default function ServicesPage() {
-  return <ServicesPageContent />;
+export default async function ServicesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ categoryId?: string | string[] }>;
+}) {
+  const query = await searchParams;
+  const initialCategoryId = Array.isArray(query.categoryId)
+    ? query.categoryId[0]
+    : query.categoryId;
+
+  return <ServicesPageContent initialCategoryId={initialCategoryId} />;
 }

@@ -12,7 +12,7 @@ export function ScrollProgressBar() {
 
   return (
     <motion.div
-      className="pointer-events-none fixed inset-x-0 top-0 z-[550] h-1 origin-left bg-gradient-to-r from-emerald-400 via-indigo-500 to-brand"
+      className="pointer-events-none fixed inset-x-0 top-0 z-[550] h-0.5 origin-left bg-gradient-to-r from-accent via-brand to-accent"
       style={{ scaleX }}
       aria-hidden="true"
     />

@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Wrench, Zap, Paintbrush, Waves, Wind, Hammer, Sparkles, Settings } from "lucide-react";
+import { motion } from "motion/react";
+import { ArrowRight, Wrench, Zap, Paintbrush, Waves, Wind, Hammer, Sparkles, Settings } from "lucide-react";
 import { useCategories } from "@/features/categories/queries";
 import { Skeleton } from "@/components/ui/skeleton";
+import { EntityImage } from "@/components/ui/entity-image";
+import { resolveCategoryImage } from "@/config/placeholder-media";
 import { ROUTES } from "@/config/routes";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
@@ -16,17 +19,6 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
   repair: Wrench,
   default: Settings,
 };
-
-const CATEGORY_COLORS: string[] = [
-  "bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400",
-  "bg-yellow-50 text-yellow-600 dark:bg-yellow-950/40 dark:text-yellow-400",
-  "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400",
-  "bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-400",
-  "bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400",
-  "bg-orange-50 text-orange-600 dark:bg-orange-950/40 dark:text-orange-400",
-  "bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400",
-  "bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400",
-];
 
 function getIcon(slug: string): React.ElementType {
   return CATEGORY_ICONS[slug] ?? CATEGORY_ICONS["default"]!;
@@ -50,7 +42,7 @@ export function CategoriesSection() {
         {isLoading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {Array.from({ length: 8 }).map((_, i) => (
-              <Skeleton key={i} className="h-24 rounded-[var(--radius-xl)]" />
+              <Skeleton key={i} className="aspect-[4/3] h-auto w-full rounded-[var(--radius-xl)]" />
             ))}
           </div>
         ) : (
@@ -60,21 +52,40 @@ export function CategoriesSection() {
           >
             {(categories ?? []).map((cat, idx) => {
               const Icon = getIcon(cat.slug);
-              const colorClass = CATEGORY_COLORS[idx % CATEGORY_COLORS.length] ?? CATEGORY_COLORS[0]!;
               return (
-                <li key={cat.id}>
+                <motion.li
+                  key={cat.id}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{
+                    duration: 0.42,
+                    delay: Math.min(idx * 0.055, 0.32),
+                    ease: "easeOut",
+                  }}
+                  className="h-full"
+                >
                   <Link
                     href={`${ROUTES.services}?categoryId=${cat.id}`}
-                    className="flex flex-col items-center gap-3 p-5 rounded-[var(--radius-xl)] border border-border bg-card hover:border-brand/40 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 text-center group"
+                    className="group block h-full overflow-hidden rounded-[var(--radius-xl)] border border-border/80 bg-card shadow-sm transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1.5 hover:border-brand/40 hover:shadow-xl hover:shadow-brand/10"
                   >
-                    <span className={`rounded-[var(--radius-lg)] p-3 ${colorClass} transition-colors`}>
-                      <Icon className="h-6 w-6" aria-hidden="true" />
-                    </span>
-                    <span className="text-sm font-medium text-foreground group-hover:text-brand transition-colors">
-                      {cat.name}
-                    </span>
+                    <EntityImage
+                      src={resolveCategoryImage(cat)}
+                      alt={`${cat.name} service category illustration`}
+                      aspect="category"
+                    >
+                      <div className="flex h-full flex-col justify-between p-3.5 sm:p-4">
+                        <span className="mr-auto rounded-xl border border-white/50 bg-white/90 p-2.5 text-brand shadow-sm backdrop-blur-md transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105">
+                          <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
+                        </span>
+                        <span className="flex items-center justify-between gap-2 text-left text-sm font-semibold text-white sm:text-base">
+                          <span>{cat.name}</span>
+                          <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+                        </span>
+                      </div>
+                    </EntityImage>
                   </Link>
-                </li>
+                </motion.li>
               );
             })}
           </ul>
@@ -83,9 +94,10 @@ export function CategoriesSection() {
         <div className="mt-8 text-center">
           <Link
             href={ROUTES.services}
-            className="text-sm text-brand font-medium hover:underline"
+            className="group inline-flex items-center gap-1.5 text-sm font-medium text-brand hover:underline"
           >
-            Browse all services →
+            Browse all services
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
           </Link>
         </div>
       </div>

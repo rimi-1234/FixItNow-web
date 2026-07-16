@@ -17,10 +17,10 @@ export default function HomePage() {
   return (
     <>
       <LandingHeroSection />
-      <RouteVisualizerSection />
-      <LandingFeaturesSection />
       <CategoriesSection />
       <HowItWorksSection />
+      <RouteVisualizerSection />
+      <LandingFeaturesSection />
       <FeaturedTechniciansSection />
       <CTASection />
     </>

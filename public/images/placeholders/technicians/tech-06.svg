@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="34" y1="20" x2="608" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#831843"/>
+      <stop offset="1" stop-color="#4338CA"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="132" y1="444" x2="508" y2="640" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22C55E"/>
+      <stop offset="1" stop-color="#15803D"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="640" rx="40" fill="url(#bg)"/>
+  <circle cx="320" cy="273" r="228" fill="#FBCFE8" fill-opacity=".13"/>
+  <path d="M38 93H207M433 93H602M41 522H190M450 522H599" stroke="#fff" stroke-opacity=".1" stroke-width="3" stroke-linecap="round"/>
+  <path d="M107 640C120 503 200 423 320 423C440 423 520 503 533 640H107Z" fill="url(#shirt)"/>
+  <path d="M264 405V456C264 489 289 512 320 512C351 512 376 489 376 456V405H264Z" fill="#9B6248"/>
+  <ellipse cx="320" cy="298" rx="113" ry="140" fill="#A96E51"/>
+  <path d="M208 281C193 219 222 159 280 135C343 109 416 141 440 207C452 241 444 276 430 301C410 247 373 217 320 217C272 217 237 239 208 281Z" fill="#17151B"/>
+  <path d="M214 242C198 197 225 149 272 129C318 110 376 121 410 153C359 139 325 153 303 190C273 181 240 199 214 242Z" fill="#2C2631"/>
+  <path d="M209 276C194 275 184 290 188 312C191 334 204 347 220 340L209 276ZM431 276C446 275 456 290 452 312C449 334 436 347 420 340L431 276Z" fill="#A96E51"/>
+  <path d="M272 306C285 297 298 297 311 306M349 306C362 297 375 297 388 306" stroke="#291714" stroke-width="7" stroke-linecap="round"/>
+  <path d="M294 365C312 379 332 379 350 365" stroke="#6F343B" stroke-width="8" stroke-linecap="round"/>
+  <path d="M247 438L320 512L393 438L423 471L379 640H261L217 471L247 438Z" fill="#F0FDF4" fill-opacity=".95"/>
+  <path d="M255 446L320 512L385 446L408 470L320 550L232 470L255 446Z" fill="#BBF7D0"/>
+  <circle cx="438" cy="537" r="38" fill="#6366F1" stroke="#E0E7FF" stroke-width="6"/>
+  <path d="M417 537H459M438 516V558" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+</svg>

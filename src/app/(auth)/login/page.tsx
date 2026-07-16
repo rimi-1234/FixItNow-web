@@ -14,7 +14,7 @@ export default function LoginPage() {
       <div className="text-center">
         <h1 className="text-2xl font-bold tracking-tight">Welcome back</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href={ROUTES.register} className="text-brand hover:underline font-medium">
             Sign up
           </Link>

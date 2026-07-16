@@ -63,7 +63,7 @@ export async function httpRequest<TSchema extends z.ZodTypeAny | undefined = und
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-  let combinedSignal = controller.signal;
+  const combinedSignal = controller.signal;
   if (signal) {
     signal.addEventListener("abort", () => controller.abort());
     if (signal.aborted) controller.abort();

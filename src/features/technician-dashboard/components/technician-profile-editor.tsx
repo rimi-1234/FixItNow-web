@@ -26,7 +26,7 @@ export function TechnicianProfileEditor() {
   const { mutateAsync, isPending } = useUpdateTechnicianProfileMutation();
   const profile = user?.technicianProfile;
 
-  const { register, handleSubmit, formState: { errors } } = useForm<ProfileFormValues>({
+  const { register, handleSubmit } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     values: {
       skills: profile?.skills?.join(", ") ?? "",

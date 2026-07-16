@@ -2,7 +2,9 @@
 @import "./tokens.css";
 
 :root {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-sans-stack: var(--font-app), "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
@@ -10,10 +12,11 @@
   *::before,
   *::after {
     box-sizing: border-box;
-    border-color: var(--color-border);
+    border-color: var(--border);
   }
 
   html {
+    background: var(--background);
     color-scheme: light;
     scroll-behavior: smooth;
   }
@@ -23,41 +26,164 @@
   }
 
   body {
+    min-height: 100dvh;
+    overflow-x: hidden;
     background-color: var(--background);
     color: var(--foreground);
+    font-family: var(--font-sans-stack);
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    min-height: 100dvh;
+    transition: background-color 350ms var(--ease-out-expo), color 250ms ease;
   }
 
-  /* Focus ring */
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--brand) 24%, transparent);
+    color: var(--foreground);
+  }
+
   :focus-visible {
-    outline: 2px solid var(--brand);
-    outline-offset: 2px;
-    border-radius: 4px;
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 0.5rem;
   }
 
-  /* Scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
-    background: var(--muted-foreground);
+    border: 2px solid transparent;
     border-radius: 999px;
-    opacity: 0.5;
+    background: color-mix(in srgb, var(--muted-foreground) 55%, transparent);
+    background-clip: padding-box;
   }
+
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--foreground);
+    background: var(--muted-foreground);
+    background-clip: padding-box;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .ambient-grid {
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--border) 42%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--border) 42%, transparent) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: linear-gradient(to bottom, black, transparent 85%);
+  }
+
+  .surface-glass {
+    border: 1px solid color-mix(in srgb, var(--border) 74%, transparent);
+    background: color-mix(in srgb, var(--surface) 84%, transparent);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(18px);
+  }
+}
+
+/* Small, dependency-free Radix transitions used by dialogs and menus. */
+@keyframes radix-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes radix-overlay-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes radix-content-in {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes radix-content-out {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  to { opacity: 0; transform: translate(-50%, -48%) scale(0.97); }
+}
+
+@keyframes radix-popover-in {
+  from { opacity: 0; transform: translateY(-4px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes radix-popover-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(-3px) scale(0.98); }
+}
+
+.radix-overlay[data-state="open"] {
+  animation: radix-overlay-in 200ms ease-out;
+}
+
+.radix-overlay[data-state="closed"] {
+  animation: radix-overlay-out 160ms ease-in;
+}
+
+.radix-dialog-content[data-state="open"] {
+  animation: radix-content-in 260ms var(--ease-out-expo);
+}
+
+.radix-dialog-content[data-state="closed"] {
+  animation: radix-content-out 160ms ease-in;
+}
+
+.radix-popover-content[data-state="open"] {
+  animation: radix-popover-in 200ms var(--ease-out-expo);
+}
+
+.radix-popover-content[data-state="closed"] {
+  animation: radix-popover-out 140ms ease-in;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
 @theme inline {
+  --font-sans: var(--font-app), "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
@@ -93,11 +219,11 @@
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);
   --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
   --radius: var(--radius-md);
 
-  /* Shadcn compat */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-sm: 0 1px 2px hsl(var(--shadow-color) / 0.06);
+  --shadow: var(--shadow-card);
+  --shadow-md: 0 10px 28px hsl(var(--shadow-color) / 0.1);
+  --shadow-lg: var(--shadow-soft);
 }

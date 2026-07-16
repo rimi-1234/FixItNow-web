@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="34" y1="28" x2="744" y2="526" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F766E"/>
+      <stop offset=".58" stop-color="#0D9488"/>
+      <stop offset="1" stop-color="#F472B6"/>
+    </linearGradient>
+    <linearGradient id="bottle" x1="295" y1="216" x2="480" y2="444" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ECFEFF"/>
+      <stop offset="1" stop-color="#A5F3FC"/>
+    </linearGradient>
+    <filter id="shadow" x="208" y="109" width="378" height="386" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="22" stdDeviation="20" flood-color="#064E3B" flood-opacity=".28"/>
+    </filter>
+  </defs>
+  <rect width="800" height="560" rx="32" fill="url(#bg)"/>
+  <circle cx="95" cy="92" r="148" fill="#5EEAD4" fill-opacity=".14"/>
+  <circle cx="716" cy="488" r="170" fill="#FBCFE8" fill-opacity=".13"/>
+  <g fill="#fff" stroke="#fff" stroke-opacity=".45">
+    <circle cx="147" cy="385" r="29" fill-opacity=".12" stroke-width="3"/>
+    <circle cx="198" cy="327" r="15" fill-opacity=".18" stroke-width="2"/>
+    <circle cx="632" cy="137" r="24" fill-opacity=".12" stroke-width="3"/>
+    <circle cx="680" cy="190" r="11" fill-opacity=".2" stroke-width="2"/>
+  </g>
+  <g filter="url(#shadow)">
+    <path d="M333 183H445L477 228V255H300V228L333 183Z" fill="#F8FAFC" fill-opacity=".95"/>
+    <path d="M375 123H441V190H375V123Z" fill="#D8B4FE"/>
+    <path d="M422 123V100H500C520 100 536 116 536 136V146H475C446 146 422 136 422 123Z" fill="#F8FAFC"/>
+    <path d="M305 244H472C497 244 518 265 518 290L501 432C499 452 482 467 462 467H315C295 467 278 452 276 432L259 290C259 265 280 244 305 244Z" fill="url(#bottle)" stroke="#fff" stroke-opacity=".7" stroke-width="4"/>
+    <rect x="306" y="310" width="162" height="88" rx="28" fill="#0F766E" fill-opacity=".18" stroke="#0F766E" stroke-opacity=".2" stroke-width="3"/>
+    <path d="M349 355L379 385L432 329" stroke="#0F766E" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g fill="#FEF3C7">
+    <path d="M588 254L598 280L624 290L598 300L588 326L578 300L552 290L578 280L588 254Z"/>
+    <path d="M214 150L221 169L240 176L221 183L214 202L207 183L188 176L207 169L214 150Z"/>
+  </g>
+</svg>

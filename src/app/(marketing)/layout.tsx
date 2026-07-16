@@ -2,7 +2,6 @@ import { MarketingHeader } from "@/components/layout/marketing-header";
 import { MarketingFooter } from "@/components/layout/marketing-footer";
 import { ScrollProgressBar } from "@/components/chrome/scroll-progress-bar";
 import { ScrollToTopButton } from "@/components/chrome/scroll-to-top-button";
-import { MessengerWidget } from "@/components/chrome/messenger-widget";
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -14,7 +13,6 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       </main>
       <MarketingFooter />
       <ScrollToTopButton />
-      <MessengerWidget />
     </div>
   );
 }

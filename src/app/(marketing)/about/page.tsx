@@ -1,44 +1,88 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { BadgeCheck, CreditCard, HeartHandshake, Layers3, ShieldCheck, Sparkles } from "lucide-react";
+import { PageHero } from "@/components/marketing/page-hero";
+import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { CheckCircle2 } from "lucide-react";
+import { ROUTES } from "@/config/routes";
 
 export const metadata: Metadata = {
   title: "About FixItNow",
-  description: "Learn about FixItNow, your trusted home service platform.",
+  description: "Learn how FixItNow makes finding and managing reliable home services simpler.",
 };
 
-const VALUES = [
-  { title: "Verified Professionals", description: "Every technician on our platform is thoroughly vetted and verified." },
-  { title: "Transparent Pricing", description: "No hidden fees. See exact pricing before you book." },
-  { title: "Secure Payments", description: "Pay securely via Stripe or SSLCommerz. Your money is protected." },
-  { title: "Real-time Updates", description: "Track the status of your booking from request to completion." },
+const values = [
+  {
+    icon: BadgeCheck,
+    title: "Quality you can assess",
+    description: "Clear profiles, skills, experience, and customer feedback help you make an informed choice.",
+  },
+  {
+    icon: Layers3,
+    title: "Clarity at every step",
+    description: "Service details and booking status stay organized from the first request through completion.",
+  },
+  {
+    icon: CreditCard,
+    title: "Secure payment flow",
+    description: "Supported payment options are handled through dedicated payment providers instead of informal transfers.",
+  },
+  {
+    icon: HeartHandshake,
+    title: "Built for both sides",
+    description: "Customers get convenient access to help while skilled technicians get a professional place to offer it.",
+  },
 ];
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
-      <h1 className="text-4xl font-bold text-foreground tracking-tight mb-4">About {siteConfig.name}</h1>
-      <p className="text-lg text-muted-foreground leading-relaxed mb-12">
-        FixItNow is your trusted platform for finding and booking skilled home service technicians. 
-        We connect homeowners with verified professionals for plumbing, electrical, cleaning, painting, and more.
-      </p>
+    <>
+      <PageHero
+        eyebrow="About us"
+        title="A simpler way to care for the place you call home."
+        description={`${siteConfig.name} brings service discovery, booking, payment, and job updates into one thoughtful experience.`}
+      >
+        <Button asChild size="lg" className="rounded-full px-6">
+          <Link href={ROUTES.services}>Explore services</Link>
+        </Button>
+        <Button asChild size="lg" variant="outline" className="rounded-full bg-surface/80 px-6 backdrop-blur-sm">
+          <Link href={ROUTES.register}>Create an account</Link>
+        </Button>
+      </PageHero>
 
-      <h2 className="text-2xl font-bold text-foreground mb-6">Our Values</h2>
-      <ul className="grid sm:grid-cols-2 gap-5 mb-12" role="list">
-        {VALUES.map(({ title, description }) => (
-          <li key={title} className="flex gap-3 p-4 rounded-[var(--radius-xl)] border border-border bg-card">
-            <CheckCircle2 className="h-5 w-5 text-success mt-0.5 shrink-0" aria-hidden />
-            <div>
-              <p className="font-semibold text-foreground text-sm">{title}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <section className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.78fr_1.22fr] lg:px-8 lg:py-24">
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-subtle text-brand">
+            <Sparkles className="h-6 w-6" aria-hidden="true" />
+          </div>
+          <h2 className="mt-6 text-3xl font-bold tracking-[-0.03em] text-foreground sm:text-4xl">
+            Trust is a product decision.
+          </h2>
+          <p className="mt-4 max-w-md leading-7 text-muted-foreground">
+            Home service is personal. The experience should make details easier to understand, actions easier to take, and progress easier to follow.
+          </p>
+          <div className="mt-7 flex items-center gap-3 rounded-2xl border border-success/20 bg-success/10 p-4 text-sm text-foreground">
+            <ShieldCheck className="h-5 w-5 shrink-0 text-success" aria-hidden="true" />
+            Account roles and protected dashboard areas keep each workflow focused.
+          </div>
+        </div>
 
-      <p className="text-sm text-muted-foreground">
-        FixItNow is committed to making home services accessible, reliable, and trustworthy for everyone.
-      </p>
-    </div>
+        <ul className="grid gap-5 sm:grid-cols-2" role="list">
+          {values.map(({ icon: Icon, title, description }, index) => (
+            <li
+              key={title}
+              className="group rounded-[var(--radius-xl)] border border-border bg-card p-6 shadow-card transition duration-300 hover:-translate-y-1 hover:border-brand/30 sm:p-7"
+            >
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-muted text-brand transition-colors group-hover:bg-brand group-hover:text-brand-foreground">
+                <Icon className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <p className="mt-8 text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">0{index + 1}</p>
+              <h3 className="mt-2 text-xl font-semibold text-foreground">{title}</h3>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">{description}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </>
   );
 }

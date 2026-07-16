@@ -123,7 +123,7 @@ export function AdminCategoriesManager() {
                           <AlertDialogHeader>
                             <AlertDialogTitle>Delete category?</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Delete "{cat.name}"? This will affect services in this category.
+                              Delete &ldquo;{cat.name}&rdquo;? This will affect services in this category.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>

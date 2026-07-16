@@ -39,7 +39,6 @@ export function BookingWizard({ technicianId, services }: BookingWizardProps) {
   const {
     register,
     watch,
-    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<BookingFormValues>({ resolver: zodResolver(bookingSchema) });
@@ -79,7 +78,7 @@ export function BookingWizard({ technicianId, services }: BookingWizardProps) {
   if (services.length === 0) {
     return (
       <div className="rounded-[var(--radius-xl)] border border-border bg-muted/30 p-6 text-center">
-        <p className="text-sm text-muted-foreground">This technician hasn't listed any services yet.</p>
+        <p className="text-sm text-muted-foreground">This technician hasn&apos;t listed any services yet.</p>
       </div>
     );
   }

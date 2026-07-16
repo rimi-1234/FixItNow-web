@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { Providers } from "./providers";
 import "@/styles/globals.css";
 import { siteConfig } from "@/config/site";
 
-const font = { variable: "--font-sans" };
+const appFont = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-app",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -19,11 +24,18 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/images/hero/home-services-hero.webp",
+        alt: "A FixItNow professional completing a home repair",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
+    images: ["/images/hero/home-services-hero.webp"],
   },
   robots: {
     index: true,
@@ -37,8 +49,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className={font.variable}>
-      <body className="font-sans antialiased min-h-screen bg-background text-foreground">
+    <html lang="en" suppressHydrationWarning className={appFont.variable}>
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface LogoProps {
@@ -19,6 +19,8 @@ const SIZES = {
   lg: { mark: 40, fullH: 40, fullW: 180 },
 };
 
+const subscribeToHydration = () => () => undefined;
+
 export function Logo({
   variant = "full",
   href = "/",
@@ -26,12 +28,7 @@ export function Logo({
   size = "md",
 }: LogoProps) {
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
+  const mounted = useSyncExternalStore(subscribeToHydration, () => true, () => false);
   const isDark = mounted && resolvedTheme === "dark";
   const dim = SIZES[size];
 

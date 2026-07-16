@@ -5,18 +5,18 @@ import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-semibold transition-[color,background-color,border-color,box-shadow,transform] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "bg-brand text-brand-foreground hover:bg-brand/90 active:scale-[0.98]",
+          "bg-brand text-brand-foreground shadow-sm hover:-translate-y-0.5 hover:bg-brand/90 hover:shadow-md active:translate-y-0 active:scale-[0.98]",
         destructive:
           "bg-danger text-danger-foreground hover:bg-danger/90 active:scale-[0.98]",
         outline:
-          "border border-border bg-transparent hover:bg-muted hover:text-foreground active:scale-[0.98]",
+          "border border-border bg-transparent hover:-translate-y-0.5 hover:border-brand/30 hover:bg-muted hover:text-foreground hover:shadow-sm active:translate-y-0 active:scale-[0.98]",
         secondary:
-          "bg-muted text-foreground hover:bg-muted/80 active:scale-[0.98]",
+          "bg-muted text-foreground hover:-translate-y-0.5 hover:bg-muted/80 hover:shadow-sm active:translate-y-0 active:scale-[0.98]",
         ghost:
           "hover:bg-muted hover:text-foreground active:scale-[0.98]",
         link: "text-brand underline-offset-4 hover:underline",

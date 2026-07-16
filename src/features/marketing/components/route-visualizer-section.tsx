@@ -1,123 +1,176 @@
 "use client";
 
-import { motion } from "motion/react";
-import { Bus, Home, MapPinned } from "lucide-react";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { motion, useReducedMotion } from "motion/react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  CheckCircle2,
+  CreditCard,
+  Hammer,
+  Send,
+  ShieldCheck,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/config/routes";
+
+const BOOKING_STEPS = [
+  {
+    status: "Requested",
+    title: "Send your request",
+    description: "Choose a service, technician, and preferred time.",
+    icon: Send,
+  },
+  {
+    status: "Accepted",
+    title: "Get confirmation",
+    description: "The technician reviews and accepts the booking.",
+    icon: BadgeCheck,
+  },
+  {
+    status: "Paid",
+    title: "Complete checkout",
+    description: "Pay for an accepted booking through the secure provider flow.",
+    icon: CreditCard,
+  },
+  {
+    status: "In progress",
+    title: "Follow the status",
+    description: "See when the technician starts the scheduled work.",
+    icon: Hammer,
+  },
+  {
+    status: "Completed",
+    title: "Close the loop",
+    description: "Once completed, the booking becomes eligible for your review.",
+    icon: CheckCircle2,
+  },
+];
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export function RouteVisualizerSection() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section
-      className="relative bg-slate-900 py-16 sm:py-20"
-      aria-labelledby="route-visualizer-heading"
+      className="relative overflow-hidden border-y border-border bg-surface-raised py-20 sm:py-24"
+      aria-labelledby="booking-journey-heading"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto mb-10 max-w-2xl text-center">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400">
-            Live route canvas
+      <div className="pointer-events-none absolute -right-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full border-[48px] border-brand/5" aria-hidden="true" />
+
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.62fr_1.38fr] lg:items-center lg:gap-14 lg:px-8">
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.45 }}
+          transition={{ duration: shouldReduceMotion ? 0.01 : 0.55, ease }}
+        >
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-brand">
+            A transparent booking journey
           </p>
           <h2
-            id="route-visualizer-heading"
-            className="text-3xl font-bold tracking-tight text-white sm:text-4xl"
+            id="booking-journey-heading"
+            className="text-3xl font-bold tracking-[-0.035em] text-foreground sm:text-4xl lg:text-5xl"
           >
-            Watch your home route draw itself
+            One booking. Every next step visible.
           </h2>
-          <p className="mt-3 text-sm text-slate-300 sm:text-base">
-            From your nearest stop to your door — animated paths make every booking feel clear and
-            premium.
+          <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground">
+            FixItNow uses a clear status flow, so customers and technicians know what can happen
+            next—from the first request through payment and completion.
           </p>
-        </div>
+
+          <div className="mt-7 flex items-start gap-3 border-l-2 border-accent pl-4">
+            <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
+            <p className="text-sm leading-6 text-foreground">
+              Payment becomes available after acceptance, and reviews become available after
+              completion.
+            </p>
+          </div>
+
+          <Button variant="outline" size="lg" asChild className="group mt-8 bg-surface">
+            <Link href={ROUTES.howItWorks}>
+              See how booking works
+              <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+            </Link>
+          </Button>
+        </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ type: "spring", stiffness: 100, damping: 15 }}
-          whileHover={{ scale: 1.02 }}
-          className={cn(
-            "mx-auto max-w-4xl rounded-2xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-emerald-500/10 backdrop-blur-xl sm:p-8",
-            "transition duration-300 ease-out hover:shadow-indigo-500/20"
-          )}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: shouldReduceMotion ? 0.01 : 0.62, delay: 0.08, ease }}
+          className="rounded-[calc(var(--radius-xl)+0.35rem)] border border-border bg-surface p-5 shadow-xl shadow-brand/5 sm:p-7 lg:p-8"
         >
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2 text-sm text-slate-200">
-              <MapPinned className="h-4 w-4 text-emerald-400" />
-              Technician en route → Home
+          <div className="mb-7 flex flex-wrap items-center justify-between gap-3 border-b border-border pb-5">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                Booking journey
+              </p>
+              <p className="mt-1 text-lg font-semibold text-foreground">From request to review</p>
             </div>
-            <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-300">
-              ETA 18 min
+            <span className="rounded-full border border-success/25 bg-success/10 px-3 py-1.5 text-xs font-semibold text-success">
+              Clear status flow
             </span>
           </div>
 
-          <div className="relative flex items-center justify-between gap-4">
-            <div className="z-10 flex flex-col items-center gap-2">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-500/30 text-indigo-200 ring-1 ring-white/15">
-                <Bus className="h-7 w-7" />
-              </div>
-              <span className="text-xs text-slate-300">Pickup stop</span>
-            </div>
-
-            <svg
-              viewBox="0 0 420 80"
-              className="absolute left-16 right-16 top-[1.7rem] hidden h-16 w-auto flex-1 sm:block"
+          <div className="relative">
+            <div
+              className="absolute bottom-5 left-5 top-5 w-px bg-border md:hidden"
               aria-hidden="true"
-            >
-              <motion.path
-                d="M 10 40 C 90 10, 150 70, 210 40 S 330 10, 410 40"
-                fill="none"
-                stroke="rgba(52,211,153,0.35)"
-                strokeWidth="3"
-                strokeDasharray="8 10"
-              />
-              <motion.path
-                d="M 10 40 C 90 10, 150 70, 210 40 S 330 10, 410 40"
-                fill="none"
-                stroke="url(#routeGradient)"
-                strokeWidth="3"
-                strokeLinecap="round"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: false, amount: 0.6 }}
-                transition={{ duration: 2.4, ease: "easeInOut", repeat: Infinity, repeatType: "loop", repeatDelay: 0.6 }}
-              />
-              <defs>
-                <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#818cf8" />
-                  <stop offset="100%" stopColor="#34d399" />
-                </linearGradient>
-              </defs>
-            </svg>
+            />
+            <motion.div
+              className="absolute bottom-5 left-5 top-5 w-px origin-top bg-brand md:hidden"
+              initial={shouldReduceMotion ? false : { scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: shouldReduceMotion ? 0.01 : 1, delay: 0.25, ease }}
+              aria-hidden="true"
+            />
+            <div
+              className="absolute left-[10%] right-[10%] top-5 hidden h-px bg-border md:block"
+              aria-hidden="true"
+            />
+            <motion.div
+              className="absolute left-[10%] right-[10%] top-5 hidden h-px origin-left bg-brand md:block"
+              initial={shouldReduceMotion ? false : { scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: shouldReduceMotion ? 0.01 : 1.05, delay: 0.25, ease }}
+              aria-hidden="true"
+            />
 
-            {/* Mobile simplified path */}
-            <div className="relative mx-2 h-1 flex-1 overflow-hidden rounded-full bg-white/10 sm:invisible sm:absolute">
-              <motion.div
-                className="absolute inset-y-0 left-0 w-1/2 rounded-full bg-gradient-to-r from-indigo-400 to-emerald-400"
-                animate={{ x: ["-20%", "120%"] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              />
-            </div>
-
-            <div className="z-10 flex flex-col items-center gap-2">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/25 text-emerald-200 ring-1 ring-white/15">
-                <Home className="h-7 w-7" />
-              </div>
-              <span className="text-xs text-slate-300">Your home</span>
-            </div>
-          </div>
-
-          <div className="mt-8 grid gap-3 sm:grid-cols-3">
-            {[
-              { label: "Distance", value: "4.2 km" },
-              { label: "Matched tech", value: "Plumber nearby" },
-              { label: "Confidence", value: "98% on-time" },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3"
-              >
-                <p className="text-[11px] uppercase tracking-wide text-slate-400">{item.label}</p>
-                <p className="mt-1 text-sm font-semibold text-white">{item.value}</p>
-              </div>
-            ))}
+            <ol className="grid gap-6 md:grid-cols-5 md:gap-3" aria-label="Booking status sequence">
+              {BOOKING_STEPS.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <motion.li
+                    key={step.status}
+                    initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.6 }}
+                    transition={{
+                      duration: shouldReduceMotion ? 0.01 : 0.38,
+                      delay: shouldReduceMotion ? 0 : 0.18 + index * 0.1,
+                      ease,
+                    }}
+                    className="relative grid grid-cols-[2.5rem_1fr] gap-4 md:block md:text-center"
+                  >
+                    <span className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-brand/25 bg-brand-subtle text-brand shadow-[0_0_0_6px_var(--surface)] md:mx-auto">
+                      <Icon className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                    <div>
+                      <p className="text-[0.68rem] font-bold uppercase tracking-[0.12em] text-brand md:mt-4">
+                        {step.status}
+                      </p>
+                      <h3 className="mt-1 text-sm font-semibold text-foreground">{step.title}</h3>
+                      <p className="mt-1.5 text-xs leading-5 text-muted-foreground">{step.description}</p>
+                    </div>
+                  </motion.li>
+                );
+              })}
+            </ol>
           </div>
         </motion.div>
       </div>

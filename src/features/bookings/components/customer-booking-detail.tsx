@@ -67,7 +67,10 @@ export function CustomerBookingDetail() {
       attemptedSessions.current.add(payment.transactionId);
       syncSession(payment.transactionId);
     }
-  }, [booking?.id, booking?.payment?.status, booking?.payment?.transactionId, syncSession]);
+  }, [
+    booking?.payment,
+    syncSession,
+  ]);
 
   if (isLoading) {
     return (
