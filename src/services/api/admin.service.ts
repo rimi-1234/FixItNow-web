@@ -4,7 +4,8 @@ import type { User } from "@/domain/models";
 
 export const adminService = {
   async listUsers(signal?: AbortSignal): Promise<User[]> {
-    return browserApi.get<undefined>(apiPaths.admin.users.list, { signal }) as Promise<User[]>;
+    const res = await browserApi.get<undefined>(apiPaths.admin.users.list, { signal }) as unknown as { data: User[] };
+    return res?.data ?? [];
   },
 
   async updateUserStatus(

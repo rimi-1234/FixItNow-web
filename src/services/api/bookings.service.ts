@@ -42,6 +42,7 @@ export const bookingsService = {
   },
 
   async adminList(signal?: AbortSignal): Promise<Booking[]> {
-    return browserApi.get<undefined>(apiPaths.admin.bookings.list, { signal }) as Promise<Booking[]>;
+    const res = await browserApi.get<undefined>(apiPaths.admin.bookings.list, { signal }) as unknown as { data: Booking[] };
+    return res?.data ?? [];
   },
 };
